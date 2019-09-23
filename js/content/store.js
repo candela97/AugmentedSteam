@@ -566,7 +566,6 @@ class AppPageClass extends StorePageClass {
         this.addWishlistRemove();
         this.addUserNote();
         this.addNewQueueButton();
-        this.addFullscreenScreenshotView();
 
         this.addCoupon();
         this.addPrices();
@@ -585,7 +584,6 @@ class AppPageClass extends StorePageClass {
 
         this.addHltb();
 
-        this.replaceDevPubLinks();
         this.moveUsefulLinks();
         this.addLinks("app");
         this.addTitleHighlight();
@@ -604,7 +602,7 @@ class AppPageClass extends StorePageClass {
 
         this.addReviewToggleButton();
         this.addHelpButton();
-        this.addSupport();
+
     }
 
     initHdPlayer() {
@@ -857,7 +855,10 @@ class AppPageClass extends StorePageClass {
             activeStyle = "";
         }
 
-        HTML.beforeBegin(".queue_actions_ctn > :last-child",
+        HTML.afterEnd(".queue_control_button.queue_btn_ignore",
+            `<div id='esi-store-user-note' class='esi-note esi-note--store ${cssClass}'>${noteText}</div>`);
+
+        HTML.afterEnd(".queue_control_button.queue_btn_ignore",
             ` <div class="queue_control_button js-user-note-button">
                 <div id="es_add_note" class="btnv6_blue_hoverfade btn_medium queue_btn_inactive" style="${inactiveStyle}">
                     <span>${Localization.str.user_note.add}</span>
@@ -866,9 +867,6 @@ class AppPageClass extends StorePageClass {
                     <span>${Localization.str.user_note.update}</span>
                 </div>
             </div>`);
-
-        HTML.beforeEnd(".queue_actions_ctn",
-            `<div id='esi-store-user-note' class='esi-note esi-note--store ${cssClass}'>${noteText}</div>`);
 
         function toggleState(node, active) {
             let button = document.querySelector(".js-user-note-button");
@@ -912,51 +910,6 @@ class AppPageClass extends StorePageClass {
                 });
             });
         });
-    }
-
-    addFullscreenScreenshotView() {
-        function toggleFullScreen(event) {
-            if (!document.fullscreenElement) {
-                let element = event.target.closest(".screenshot_popup_modal_content");
-                element.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        function initFSVButtons() {
-            let modalFooter = document.querySelector(".screenshot_popup_modal_footer");
-            let nextButton = modalFooter.querySelector(".next");
-            let nextButtonOffsetWidth = nextButton.offsetWidth;
-            if (nextButton.style.display === "none") {
-                nextButton.style.display = "";
-                nextButtonOffsetWidth = nextButton.offsetWidth;
-                nextButton.style.display = "none";
-            }
-            HTML.beforeEnd(modalFooter,
-                `<div class="btnv6_blue_hoverfade btn_medium es_screenshot_fullscreen_toggle" style="right: calc(${nextButtonOffsetWidth}px + 0.5em)"><i></i></div>`);
-            let fsvButton = modalFooter.querySelector(".es_screenshot_fullscreen_toggle");
-            fsvButton.addEventListener("click", toggleFullScreen);
-
-            let modalTitleLink = modalFooter.parentElement.querySelector(".screenshot_popup_modal_title > a");
-            HTML.beforeEnd(modalFooter,
-                `<div class="btnv6_blue_hoverfade btn_medium es_screenshot_download_btn" style="right: calc(${nextButtonOffsetWidth + fsvButton.offsetWidth}px + 1em)" title="${modalTitleLink.textContent.trim()}"><i></i></div>`);
-            let downloadButton = modalFooter.querySelector(".es_screenshot_download_btn");
-            downloadButton.addEventListener("click", () => {
-                modalTitleLink.click();
-            });
-        }
-
-        let observer = new MutationObserver(records => {
-            for (let record of records) {
-                for (let node of record.addedNodes) {
-                    if (node.classList.contains("screenshot_popup_modal")) {
-                        initFSVButtons();
-                    }
-                }
-            }
-        });
-        observer.observe(document.body, { childList: true });
     }
 
     getFirstSubid() {
@@ -1410,64 +1363,6 @@ class AppPageClass extends StorePageClass {
         });
     }
 
-    replaceDevPubLinks() {
-        if (!this.isAppPage()) { return; }
-
-        let rows = document.querySelectorAll(".dev_row a");
-        for (let linkNode of rows) {
-            let homepageLink = new URL(linkNode.href);
-            if (homepageLink.pathname === "/search/") {
-                continue;
-            }
-
-            let parts = homepageLink.pathname.split(`/`);
-            linkNode.href = `https://store.steampowered.com/search/?${parts[1]}=${encodeURIComponent(parts[2])}`;
-            HTML.afterEnd(linkNode, ` (<a href="${homepageLink.href}">${Localization.str.options.homepage}</a>)`);
-        }
-    }
-
-    async addSupport() {
-        if (!this.isAppPage()) { return; }
-        if (this.isDlc()) { return; }
-
-        let appid = this.appid;
-        let response = await Background.action("appdetails", {"appids": appid, "filters": "support_info"});
-        if (!response || !response[appid] || !response[appid].success) { return; }
-
-        let supportInfo = response[appid].data.support_info;
-        let url = supportInfo.url;
-        let email = supportInfo.email;
-        if (!email && !url) { return; }
-
-        let support = "";
-        if (url) {
-            support += `<a href="${url}">${Localization.str.website}</a>`;
-        }
-
-        if (email) {
-            if (url) {
-                support += ", ";
-            }
-
-            // From https://emailregex.com/
-            let emailRegex =
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-            if (emailRegex.test(email)) {
-                support += `<a href="mailto:${email}">${Localization.str.email}</a>`;
-            } else {
-                support += `<a href="${email}">${Localization.str.contact}</a>`;
-            }
-        }
-
-        let block = document.querySelector(".glance_ctn .user_reviews");
-        HTML.beforeEnd(block,
-            `<div class="release_date">
-                <div class="subtitle column">${Localization.str.support}:</div>
-                <div class="summary column" id="es_support_list">${support}</div>
-            </div>`);
-    }
-
     moveUsefulLinks() {
         if (!this.isAppPage()) { return; }
 
@@ -1583,13 +1478,14 @@ class AppPageClass extends StorePageClass {
         if (!SyncedStorage.get("show_package_info")) { return; }
 
         let nodes = document.querySelectorAll(".game_area_purchase_game_wrapper");
-        for (let node of nodes) {
-            if (node.querySelector(".btn_packageinfo")) return;
+        for (let i=0, len=nodes.length; i<len; i++) {
+            let node = nodes[i];
+            if (node.querySelector(".btn_packageinfo")) { continue; }
 
             let subid = node.querySelector("input[name=subid]").value;
-            if (!subid) return;
+            if (!subid) { continue; }
 
-            HTML.afterBegin(node.querySelector(".game_purchase_action"),
+            HTML.afterBegin(".game_purchase_action",
                 `<div class="game_purchase_action_bg"><div class="btn_addtocart btn_packageinfo">
                  <a class="btnv6_blue_blue_innerfade btn_medium" href="//store.steampowered.com/sub/${subid}/"><span>
                  ${Localization.str.package_info}</span></a></div></div>`);
@@ -1599,7 +1495,7 @@ class AppPageClass extends StorePageClass {
     addSteamChart(result) {
         if (this.isDlc()) { return; }
         if (!SyncedStorage.get("show_steamchart_info")) { return; }
-	    if (!result.charts || !result.charts.chart || !result.charts.chart.peakall) { return; }
+	if (!result.charts || !result.charts.chart || !result.charts.chart.peakall) { return; }
 
         let appid = this.appid;
         let chart = result.charts.chart;
