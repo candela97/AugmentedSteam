@@ -1144,7 +1144,7 @@ let AugmentedSteam = (function() {
         HTML.afterBegin("#global_action_menu",
             `<div id="es_menu">
                 <span id="es_pulldown" class="pulldown global_action_link">Augmented Steam</span>
-                <div id="es_popup" class="popup_block_new">
+                <div id="es_popup" class="popup_block_new" style="display: none;">
                     <div class="popup_body popup_menu">
                         <a class="popup_menu_item" target="_blank" href="${ExtensionResources.getURL("options.html")}">${Localization.str.thewordoptions}</a>
                         <a class="popup_menu_item" id="es_clear_cache" href="#clear_cache">${Localization.str.clear_cache}</a>
@@ -1159,21 +1159,15 @@ let AugmentedSteam = (function() {
                 </div>
             </div>`);
 
-        let popup = document.querySelector("#es_popup");
-
         document.querySelector("#es_pulldown").addEventListener("click", () => {
             ExtensionLayer.runInPageContext(() => { ShowMenu("es_pulldown", "es_popup", "right", "bottom", true); });
         });
 
-        document.querySelector("#es_menu").addEventListener("click", function(e){
-            e.stopPropagation();
+        document.querySelector("#es_popup").addEventListener("click", () => {
+            ExtensionLayer.runInPageContext(() => { HideMenu("es_pulldown", "es_popup"); });
         });
 
-        document.addEventListener("click", function(){
-            popup.classList.remove("open");
-        });
-
-        document.querySelector("#es_clear_cache").addEventListener("click", function(e){
+        document.querySelector("#es_clear_cache").addEventListener("click", e => {
             e.preventDefault();
 
             self.clearCache();
