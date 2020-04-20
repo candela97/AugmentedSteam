@@ -1144,7 +1144,7 @@ let AugmentedSteam = (function() {
         HTML.afterBegin("#global_action_menu",
             `<div id="es_menu">
                 <span id="es_pulldown" class="pulldown global_action_link">Augmented Steam</span>
-                <div id="es_popup" class="popup_block_new" style="display: none;">
+                <div id="es_popup" class="popup_block_new">
                     <div class="popup_body popup_menu">
                         <a class="popup_menu_item" target="_blank" href="${ExtensionResources.getURL("options.html")}">${Localization.str.thewordoptions}</a>
                         <a class="popup_menu_item" id="es_clear_cache" href="#clear_cache">${Localization.str.clear_cache}</a>

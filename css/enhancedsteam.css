@@ -2487,6 +2487,9 @@ img.astats_icon {
 #es_itad_status {
 	margin-left: 0.4em;
 }
+#es_popup {
+  display: none;
+}
 #es_pulldown {
   vertical-align: middle;
   display: inline-block;
