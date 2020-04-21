@@ -748,11 +748,11 @@ let ProfileHomePageClass = (function(){
 
         // Build reputation images regexp
         let repImgs = {
-            "banned": /scammer|banned/gi,
-            "valve": /valve admin/gi,
-            "caution": /caution/gi,
-            "okay": /admin|middleman/gi,
-            "donate": /donator/gi
+            "banned": /scammer|banned/i,
+            "valve": /valve admin/i,
+            "caution": /caution/i,
+            "okay": /admin|middleman/i,
+            "donate": /donator/i
         };
 
         let html = "";
