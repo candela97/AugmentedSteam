@@ -176,12 +176,6 @@
 .wishlistRow {
   border-radius: 4px;
 }
-.popup_menu .hr {
-  height: 1px;
-  background-color: #82807c;
-  width: 90%;
-  margin: auto;
-}
 
 /* https://www.w3schools.com/howto/howto_css_loader.asp */
 .loader {
@@ -535,10 +529,6 @@ img.astats_icon {
   margin-bottom: 4px;
 }
 
-#es_popup .hr {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
 #es_popular {
   margin-left: 3px;
 }
@@ -2470,25 +2460,11 @@ img.astats_icon {
 }
 
 /***************************************
- * Site wide
- * add_enhanced_steam_options()
+ * Common
+ * Augmented Steam and ITAD menu
  **************************************/
 #es_menu {
   display: inline-block;
-}
-#es_itad {
-  display: inline-flex;
-  align-items: center;
-  margin-right: 1em;
-}
-#es_itad_status {
-	color: rgb(81, 119, 29);
-}
-#es_itad_status {
-	margin-left: 0.4em;
-}
-#es_popup {
-  display: none;
 }
 #es_pulldown {
   vertical-align: middle;
@@ -2496,6 +2472,27 @@ img.astats_icon {
   margin: 1px;
   padding-left: 4px;
   line-height: 19px;
+}
+#es_popup {
+  display: none;
+}
+#es_popup .popup_menu .hr {
+  height: 1px;
+  background-color: #82807c;
+  width: 90%;
+  margin: 2px 12px;
+}
+
+#es_itad {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 1em;
+}
+#es_itad_status {
+  color: rgb(81, 119, 29);
+}
+#es_itad_status {
+  margin-left: 0.4em;
 }
 .es-itad-hover {
   display: none;
