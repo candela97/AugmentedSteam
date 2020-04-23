@@ -3955,16 +3955,13 @@ let StoreFrontPageClass = (function(){
 
     function StoreFrontPageClass() {
 
-        if (User.isSignedIn) {
-            this.highlightDynamic();
-        }
-
+        this.highlightDynamic();
         this.setHomePageTab();
         this.customizeHomePage();
     }
 
-    StoreFrontPageClass.prototype.setHomePageTab = function(){
-        document.querySelector(".home_tabs_row").addEventListener("click", function(e) {
+    StoreFrontPageClass.prototype.setHomePageTab = function() {
+        document.querySelector(".home_tabs_row").addEventListener("click", e => {
             let tab = e.target.closest(".tab_content");
             if (!tab) { return; }
             SyncedStorage.set("homepage_tab_last", tab.parentNode.id);
@@ -3977,40 +3974,42 @@ let StoreFrontPageClass = (function(){
         }
         if (!last) { return; }
 
-        let tab = document.querySelector(".home_tabs_row #"+last);
+        let tab = document.querySelector(`.home_tabs_row #${last}`);
         if (!tab) { return; }
 
         tab.click();
     };
 
     StoreFrontPageClass.prototype.highlightDynamic = function() {
+        if (!User.isSignedIn) { return; }
 
         let recentlyUpdated = document.querySelector(".recently_updated");
         if (recentlyUpdated) {
             let observer = new MutationObserver(mutations => {
-                mutations.forEach(mutation => Highlights.highlightAndTag(mutation.addedNodes[0].children));
+                for (let mutation of mutations) {
+                    Highlights.highlightAndTag(mutation.addedNodes[0].children);
+                }
                 observer.disconnect();
             });
             observer.observe(recentlyUpdated, { childList: true });
         }
 
-        // Monitor and highlight wishlishted recommendations at the bottom of Store's front page
+        // Monitor and highlight recommendations that appear at the bottom of the page
         let contentNode = document.querySelector("#content_more");
         if (contentNode) {
             let observer = new MutationObserver(mutations => {
-                mutations.forEach(mutation =>
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeType !== Node.ELEMENT_NODE) { return; }
+                for (let mutation of mutations) {
+                    for (let node of mutation.addedNodes) {
+                        if (node.nodeType !== Node.ELEMENT_NODE) { continue; }
                         Highlights.highlightAndTag(node.querySelectorAll(".home_content_item, .home_content.single"));
-                    })
-                );
+                    }
+                }
             });
-
-            observer.observe(contentNode, {childList:true, subtree: true});
+            observer.observe(contentNode, { childList: true, subtree: true });
         }
     };
 
-    StoreFrontPageClass.prototype.customizeHomePage = function(){
+    StoreFrontPageClass.prototype.customizeHomePage = function() {
 
         HTML.beforeEnd(".home_page_content",
             `<div class="home_pagecontent_ctn clearfix" style="margin-bottom: 5px; margin-top: 3px;">
@@ -4022,11 +4021,11 @@ let StoreFrontPageClass = (function(){
                 </div>
             </div>`);
 
-        document.querySelector("#es_customize_btn").addEventListener("click", function(e){
+        document.querySelector("#es_customize_btn").addEventListener("click", e => {
             e.target.classList.toggle("active");
         });
 
-        document.body.addEventListener("click", function(e){
+        document.body.addEventListener("click", e => {
             if (e.target.closest("#es_customize_btn")) { return; }
             let node = document.querySelector("#es_customize_btn .home_customize_btn.active");
             if (!node) { return; }
