@@ -28,8 +28,9 @@
   opacity: 1;
 }
 
-/** Customize button on storefront and app pages
- *  Taken from: https://steamstore-a.akamaihd.net/public/css/v6/home.css
+/** 
+ * Customize button on storefront and app pages
+ * Taken from: https://steamstore-a.akamaihd.net/public/css/v6/home.css
  */
 #es_customize_btn {
   float: right;
