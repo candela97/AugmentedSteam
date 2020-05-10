@@ -973,10 +973,8 @@ let ProfileHomePageClass = (function(){
         let sendButton = document.querySelector("div.profile_header_actions > a[href*=OpenFriendChat]");
         if (!sendButton) { return; }
 
-        let chatId = sendButton.href.split("'")[1];
-
-        let rgProfileData = HTMLParser.getVariableFromDom("g_rgProfileData", "object");
-        let friendSteamId = rgProfileData.steamid;
+        let friendProfileData = HTMLParser.getVariableFromDom("g_rgProfileData", "object");
+        let friendSteamId = friendProfileData.steamid;
 
         HTML.replace(sendButton,
             `<span class="btn_profile_action btn_medium" id="profile_chat_dropdown_link">
@@ -993,7 +991,7 @@ let ProfileHomePageClass = (function(){
                 </div>
             </div>`);
 
-        document.querySelector("#btnWebChat").href = `javascript:OpenFriendChatInWebChat( "${chatId}" )`;
+        document.querySelector("#btnWebChat").href = sendButton.href.replace("OpenFriendChat", "OpenFriendChatInWebChat");
 
         document.querySelector("#profile_chat_dropdown_link").addEventListener("click", () => {
             ExtensionLayer.runInPageContext(() => { ShowMenu("profile_chat_dropdown_link", "profile_chat_dropdown", "right"); });
