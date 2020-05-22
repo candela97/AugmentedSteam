@@ -1159,21 +1159,15 @@ let AugmentedSteam = (function() {
                 </div>
             </div>`);
 
-        let popup = document.querySelector("#es_popup");
-
         document.querySelector("#es_pulldown").addEventListener("click", () => {
             ExtensionLayer.runInPageContext(() => { ShowMenu("es_pulldown", "es_popup", "right", "bottom", true); });
         });
 
-        document.querySelector("#es_menu").addEventListener("click", function(e){
-            e.stopPropagation();
+        document.querySelector("#es_popup").addEventListener("click", () => {
+            ExtensionLayer.runInPageContext(() => { HideMenu("es_pulldown", "es_popup"); });
         });
 
-        document.addEventListener("click", function(){
-            popup.classList.remove("open");
-        });
-
-        document.querySelector("#es_clear_cache").addEventListener("click", function(e){
+        document.querySelector("#es_clear_cache").addEventListener("click", e => {
             e.preventDefault();
 
             self.clearCache();
