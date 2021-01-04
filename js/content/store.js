@@ -304,7 +304,7 @@ class StorePageClass {
         prices.bundleCallback = function(html) {
 
             HTML.afterEnd("#game_area_purchase",
-                `<h2 class="gradientbg es_bundle_info">${Localization.str.bundle.header} <img src="//store.steampowered.com/public/images/v5/ico_external_link.gif"></h2>
+                `<h2 class="gradientbg esi-external-link">${Localization.str.bundle.header} </h2>
                 ${html}`);
         };
 
@@ -1207,7 +1207,7 @@ class AppPageClass extends StorePageClass {
         } finally {
             let suggestUrl = `${Config.PublicHost}/gamedata/dlc_category_suggest.php?appid=${this.appid}&appname=${encodeURIComponent(this.appName)}`;
             html += `</div>
-                    <br><a class="linkbar" href="${suggestUrl}" target="_blank">${Localization.str.dlc_suggest} <img src="//store.steampowered.com/public/images/v5/ico_external_link.gif"></a>
+                    <br><a class="linkbar esi-external-link" href="${suggestUrl}" target="_blank">${Localization.str.dlc_suggest} </a>
                     </div></div></div>`;
 
             HTML.beforeBegin(document.querySelector("#category_block").parentNode, html);
@@ -1272,9 +1272,7 @@ class AppPageClass extends StorePageClass {
                             <div class="logo"><img src="${ocImg}"></div>
                             <div class="wordmark">
                                 <div class="metacritic">OpenCritic</div>
-                                <div id="game_area_metalink">${award} - <a href="${data.url}?utm_source=enhanced-steam-itad&utm_medium=average" target="_blank">${Localization.str.read_reviews}</a>
-                                    <img src="https://steamstore-a.akamaihd.net/public/images/ico/iconExternalLink.gif" border="0" align="bottom">
-                                </div>
+                                <div id="game_area_metalink">${award} - <a class="esi-external-link" href="${data.url}?utm_source=enhanced-steam-itad&utm_medium=average" target="_blank">${Localization.str.read_reviews} </a></div>
                             </div>
                         </div>
                         <div style="clear: both;"></div>
@@ -1701,7 +1699,7 @@ class AppPageClass extends StorePageClass {
             if (fkg !== "Incomplete") { html += `<img src="${HTML.escape(fkg_icon)}" title="${HTML.escape(fkg_text)}">&nbsp;&nbsp;&nbsp;`; }
 
             html += `</center></div>
-                    <br><a class="linkbar" target="_blank" href="${HTML.escape(path)}">${Localization.str.rating_details} <img src="//store.steampowered.com/public/images/v5/ico_external_link.gif"></a>
+                    <br><a class="linkbar esi-external-link" target="_blank" href="${HTML.escape(path)}">${Localization.str.rating_details} </a>
                     </div></div></div>`;
 
             HTML.afterEnd("div.game_details", html);
@@ -1716,7 +1714,6 @@ class AppPageClass extends StorePageClass {
             let data = result.hltb;
 
             let suggestUrl = `${Config.PublicHost}/gamedata/hltb_link_suggest.php`;
-            let icoImg = "//store.steampowered.com/public/images/v5/ico_external_link.gif";
 
             let html = `<div class="block responsive_apppage_details_right heading">${Localization.str.hltb.title}</div>
                        <div class="block game_details underlined_links es_hltb">
@@ -1734,12 +1731,12 @@ class AppPageClass extends StorePageClass {
                 }
 
                 html += `</div>
-                        <a class="linkbar" href="${HTML.escape(data["url"])}" target="_blank">${Localization.str.more_information} <img src="${icoImg}"></a>
-                        <a class="linkbar" href="${HTML.escape(data["submit_url"])}" target="_blank">${Localization.str.hltb.submit} <img src="${icoImg}"></a>`;
-                        // FIXME <a class="linkbar" href="${suggestUrl}" id="suggest">${Localization.str.hltb.wrong}-${Localization.str.hltb.help} <img src="${icoImg}"></a>
+                        <a class="linkbar esi-external-link" href="${HTML.escape(data["url"])}" target="_blank">${Localization.str.more_information} </a>
+                        <a class="linkbar esi-external-link" href="${HTML.escape(data["submit_url"])}" target="_blank">${Localization.str.hltb.submit} </a>`;
+                        // FIXME <a class="linkbar esi-external-link" href="${suggestUrl}" id="suggest">${Localization.str.hltb.wrong}-${Localization.str.hltb.help} </a>
             } else {
                 html += `${Localization.str.hltb.no_data}</div>`;
-                        // FIXME <a class="linkbar" href="${suggestUrl}" id="suggest">${Localization.str.hltb.wrong}-${Localization.str.hltb.help} <img src="${icoImg}"></a>
+                        // FIXME <a class="linkbar esi-external-link" href="${suggestUrl}" id="suggest">${Localization.str.hltb.wrong}-${Localization.str.hltb.help} </a>
             }
             html += '</div></div></div>';
 
@@ -2308,7 +2305,7 @@ class AppPageClass extends StorePageClass {
         HTML.beforeEnd("#achievement_block",
             `<div class="game_area_details_specs">
                 <div class="icon"><img class="astats_icon" src="${imgUrl}"></div>
-                <a class="name" href="${url}" target="_blank">${Localization.str.view_astats}</a>
+                <a class="name esi-external-link" href="${url}" target="_blank">${Localization.str.view_astats} </a>
             </div>`);
     }
 

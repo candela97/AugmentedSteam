@@ -3056,12 +3056,14 @@ label[for="show_common_games"] {
   text-align: right;
 }
 
-.es_hltb a.linkbar > img,
-.es_wsgf a.linkbar > img,
-.es_dlc_info a.linkbar > img,
-.es_bundle_info > img {
+/* Append Steam's external link icons */
+.esi-external-link::after {
+  content: url("https://store.steampowered.com/public/images/v5/ico_external_link.gif");
   border: 0;
   vertical-align: baseline;
+}
+#game_area_metalink > .esi-external-link::after {
+  content: url("https://steamstore-a.akamaihd.net/public/images/ico/iconExternalLink.gif");
 }
 
 .es_hltb .details_block span {
