@@ -27,9 +27,7 @@ import FHowLongToBeat from "./FHowLongToBeat";
 import FFamilySharingNotice from "./FFamilySharingNotice";
 import FPackBreakdown from "./FPackBreakdown";
 import FPackageInfoButton from "./FPackageInfoButton";
-import FSteamChart from "./FSteamChart";
-import FSteamSpy from "./FSteamSpy";
-import FSurveyData from "./FSurveyData";
+import FAppStats from "./FAppStats";
 import FCustomizer from "../Common/FCustomizer";
 import FDLCCheckboxes from "./FDLCCheckboxes";
 import FBadgeProgress from "./FBadgeProgress";
@@ -75,9 +73,7 @@ export class CApp extends CStore {
             FFamilySharingNotice,
             FPackBreakdown,
             FPackageInfoButton,
-            FSteamChart,
-            FSteamSpy,
-            FSurveyData,
+            FAppStats,
             FCustomizer,
             FDLCCheckboxes,
             FBadgeProgress,
@@ -114,7 +110,7 @@ export class CApp extends CStore {
         this.appName = document.querySelector(".apphub_AppName").textContent;
 
         // The customizer has to wait on this data to be added in order to find the HTML elements
-        FCustomizer.dependencies = [FSteamSpy, FSteamChart, FSurveyData];
+        FCustomizer.dependencies = [FAppStats];
         FCustomizer.weakDependency = true;
 
         /*
