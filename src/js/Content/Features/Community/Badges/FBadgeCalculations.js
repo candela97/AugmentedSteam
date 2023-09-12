@@ -4,7 +4,7 @@ import {Background, CurrencyManager, DOMHelper, Feature, Price, RequestData} fro
 export default class FBadgeCalculations extends Feature {
 
     checkPrerequisites() {
-        return this.context.showDropOptions;
+        return this.context.myProfile;
     }
 
     apply() {

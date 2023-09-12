@@ -26,7 +26,7 @@ export default class FBadgeSortAndFilter extends Feature {
             const sort = new URL(node.href).searchParams.get("sort");
             html += `<a class="popup_menu_item" href="?sort=${sort}">${node.textContent.trim()}</a>`;
         }
-        if (this.context.showDropOptions) {
+        if (this.context.myProfile) {
             html += `<a class="popup_menu_item" id="es_badge_sort_drops">${Localization.str.most_drops}</a>`;
             html += `<a class="popup_menu_item" id="es_badge_sort_value">${Localization.str.drops_value}</a>`;
             html += `<a class="popup_menu_item" id="es_badge_sort_remain">${Localization.str.cards_remain}</a>`;
@@ -47,7 +47,7 @@ export default class FBadgeSortAndFilter extends Feature {
                 <div class="popup_body popup_menu">${html}</div>
             </div>`);
 
-        if (this.context.showDropOptions) {
+        if (this.context.myProfile) {
             document.querySelector("#es_badge_sort_drops").addEventListener("click", async e => {
 
                 if (this.context.hasMultiplePages) {
@@ -103,7 +103,7 @@ export default class FBadgeSortAndFilter extends Feature {
     }
 
     _addFilter() {
-        if (!this.context.showDropOptions) { return; }
+        if (!this.context.showFilterOptions) { return; }
 
         HTML.afterBegin(this._header,
             `<div class="es_badge_filter">

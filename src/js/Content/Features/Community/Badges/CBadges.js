@@ -18,9 +18,9 @@ export class CBadges extends CCommunityBase {
         this.myProfile = CommunityUtils.currentUserIsOwner();
         this.hasMultiplePages = document.querySelector(".profile_paging") !== null;
 
-        // Sorting by "Complete" and "Rarity" only shows completed badges, so don't calculate drops or show drop-related options
+        // Sorting by "Complete" and "Rarity" only shows completed badges, so don't show filter options
         const sort = new URLSearchParams(window.location.search).get("sort");
-        this.showDropOptions = this.myProfile && sort !== "c" && sort !== "r";
+        this.showFilterOptions = this.myProfile && sort !== "c" && sort !== "r";
     }
 
     // TODO Cache this somehow or apply both FBadgeDropsCount & FBadgeSortAndFilter at once when doing these requests
